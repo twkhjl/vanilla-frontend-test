@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+  <style>
+  
+    </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <div id="rec" class="bg-black w-[150px] h-[150px] mx-auto mt-[200px]">
+  </div>
+  <div class="text-center mx-auto text-4xl">click me</div>
+</body>  
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<script>
+  let rec=document.querySelector("#rec");
+x
+  rec.addEventListener('mouseenter',function () {
+    rec.classList.add('transition-all');
+    rec.classList.add('duration-300');
+    rec.classList.add('hover:shadow-lg');
+    rec.classList.add('hover:shadow-black');
+    
+  })
+  rec.addEventListener('mouseleave',function(){
+    rec.classList.add('border-8');
+    rec.classList.add('border-gray-400');
+  })
+
+  rec.addEventListener('mousedown',function(){
+    // console.log('mouse down');
+    rec.clientX
+    rec.classList.remove('bg-black');
+    rec.classList.remove('border-8');
+    rec.classList.remove('border-gray-400');
+    rec.classList.add('bg-green-900');
+
+  });
+  rec.addEventListener('mouseup',function(){
+    // console.log('mouse up');
+    rec.classList.remove('bg-green-900');
+    rec.classList.add('bg-black');
+  })
+</script>
+
+
+
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      /* border: 2px solid gray; */
+    }
+
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-container {
+      /* border: 10px solid green; */
+      /* border-radius: 15px; */
+      /* width: 50%; */
+      width: 100%;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel {
+      /* position:absolute; */
+      position: relative;
+      display: flex;
+      align-items: center;
+      left: -100%;
+      /* transition: all 0.5s; */
+    }
+
+
+    .carousel .slide {
+      width: 100%;
+      height: 80vh;
+    }
+
+    .carousel .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-control-btn {
+      position: absolute;
+      top: 40%;
+      cursor: pointer;
+      /* border: 1px solid gray; */
+      background: rgb(222, 221, 221);
+      box-shadow: 1px 1px 10px black;
+      border-radius: 50%;
+      padding: 3vh;
+      font-size: 5vh;
+      width: 6vw;
+      max-width:20px;
+      line-height: 5vh;
+      background-size: 4vh;
+      background-position: center;
+      background-repeat: no-repeat;
+
+    }
+
+    .btn-prev {
+      background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-left-512.png');
+      left: 10px;
+    }
+
+    .btn-next {
+      background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-right-512.png');
+      right: 10px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="flex-container">
+
+    <div class="carousel-container">
+      <div class="carousel">
+        <div id="slide_1" class="slide"><img
+            src="https://images.pexels.com/photos/1303094/pexels-photo-1303094.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        </div>
+        <div id="slide_2" class="slide"><img
+            src="https://images.pexels.com/photos/1708601/pexels-photo-1708601.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        </div>
+        <div id="slide_3" class="slide"><img
+            src="https://images.pexels.com/photos/754263/pexels-photo-754263.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        </div>
+        <div id="slide_4" class="slide"><img
+            src="https://images.pexels.com/photos/713148/pexels-photo-713148.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        </div>
+        <div id="slide_5" class="slide"><img
+            src="https://images.pexels.com/photos/220098/pexels-photo-220098.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1">
+        </div>
+
+
+      </div>
+      <div class="controls">
+        <div class="slide-control-btn btn-prev"></div>
+        <div class="slide-control-btn btn-next"></div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+
+    let carousel = document.querySelector('.carousel');
+    carousel.style.transition = "all 0.5s";
+
+    let slides = document.querySelectorAll('.carousel .slide');
+
+    if (slides.length == 2) {
+      carousel.prepend(slides[1].cloneNode(true));
+      carousel.prepend(slides[0].cloneNode(true));
+      slides = document.querySelectorAll('.carousel .slide');
+    }
+
+    if (slides.length == 1) {
+      carousel.prepend(slides[0].cloneNode(true));
+      carousel.prepend(slides[0].cloneNode(true));
+      slides = document.querySelectorAll('.carousel .slide');
+
+    }
+
+    const slides_length = slides.length;
+    const btn_prev = document.querySelector('.controls .btn-prev');
+    const btn_next = document.querySelector('.controls .btn-next');
+
+    let switch_toggle_slider = true;
+
+    carousel.style.width = `${slides_length * 100}%`;
+    carousel.prepend(carousel.lastElementChild);
+    slides = document.querySelectorAll('.carousel .slide');
+
+
+    btn_next.addEventListener('click', slideToNext)
+    btn_prev.addEventListener('click', slideToPrev)
+
+
+    function slideToNext(el) {
+      el.preventDefault();
+
+      if (!switch_toggle_slider) return;
+
+      carousel.style.left = '-200%';
+      switch_toggle_slider = false;
+
+      setTimeout(() => {
+        carousel.style.transition = 'none';
+        let first_slide = slides[0].cloneNode(true);
+        carousel.append(first_slide);
+        slides[0].remove();
+        carousel.style.left = '-100%';
+        slides = document.querySelectorAll('.carousel .slide');
+      }, 300);
+
+      setTimeout(() => {
+        carousel.style.transition = 'all 0.5s';
+      }, 350);
+      setTimeout(() => {
+        switch_toggle_slider = true;
+      }, 400);
+
+    }
+
+    function slideToPrev(el) {
+      el.preventDefault();
+
+      if (!switch_toggle_slider) return;
+
+      carousel.style.left = '0%';
+      switch_toggle_slider = false;
+
+      setTimeout(() => {
+        carousel.style.transition = 'none';
+        let last_slide = slides[slides.length - 1].cloneNode(true);
+        carousel.prepend(last_slide);
+        slides[slides.length - 1].remove();
+        slides = document.querySelectorAll('.carousel .slide');
+        carousel.style.left = '-100%';
+      }, 300);
+
+      setTimeout(() => {
+        carousel.style.transition = 'all 0.5s';
+      }, 350);
+
+      setTimeout(() => {
+        switch_toggle_slider = true;
+      }, 400);
+
+
+    }
+
+
+
+
+
+    // add draggable##################################################################
+
+
+    let posInitial = 0;
+    let threshold = 100;
+    let singleSlideWidth = carousel.offsetWidth / slides.length;
+
+    let posX3 = 0;
+    let posX1 = 0;
+
+    carousel.onmousedown = function (e) {
+      e.preventDefault();
+
+      carousel.style.transition = null;
+      posInitial = carousel.offsetLeft;
+      posX3 = e.clientX;
+
+      carousel.onmouseup = function () {
+        carousel.onmouseup = null;
+        carousel.onmousemove = null;
+        carousel.style.transition = 'all 0.5s';
+
+        let posFinal = carousel.offsetLeft;
+        if (posFinal - posInitial > singleSlideWidth*2 / 3) {
+          btn_prev.click();
+        } else if (posFinal - posInitial < -(singleSlideWidth *2/ 3)) {
+          btn_next.click();
+        }
+        else {
+          // return to original slide position
+          carousel.style.left = posInitial + 'px';
+
+        }
+      }
+
+      carousel.onmousemove = function (e) {
+        e.preventDefault();
+        posX1 = posX3 - e.clientX;
+        posX3 = e.clientX;
+
+        carousel.style.left = (carousel.offsetLeft - posX1) + "px";
+
+      }
+
+    }
+
+
+
+// ################################################################################
+
+
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

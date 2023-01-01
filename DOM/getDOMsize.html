@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+  <style>
+   
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <div class="grid grid-cols-1">
+    <div id="rec1" class="bg-green-700 w-[100px] h-[150px] mx-auto mt-10"></div>
+    <button id="btn1" class="p-4 bg-yellow-400 text-2xl w-[20%] mx-auto mt-4 hover:bg-yellow-200">get size</button>
+    <pre id="div_output1" class="mx-auto w-[100%] mt-8 text-center"></pre>
+  </div>
+  <hr>
+  
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<script>
+  let rec1 = document.querySelector("#rec1");
+  let div_output1 =document.querySelector('#div_output1');
+
+  let btn1 = document.querySelector('#btn1');
+
+  btn1.addEventListener('click',function(){
+
+    let DOMrect = rec1.getBoundingClientRect();
+    let width =DOMrect.width;
+    let height =DOMrect.height;
+    let left =DOMrect.left;
+    let right =DOMrect.right;
+    let top =DOMrect.top;
+    let bottom =DOMrect.bottom;
+    let x =DOMrect.x;
+    let y =DOMrect.y;
+    let clientX = DOMrect.clientX;
+
+    let output_text = `
+    width:${width};height:${height}\n
+    left:${left}\n
+    right:${right}\n
+    top:${top} 
+    bottom:${bottom}\n
+    x:${x};y:${y}\n
+    clientX:${clientX}\n
+    `;
+    div_output1.innerHTML=output_text;
+
+  })
+
+
+</script>
+
+
+
+</html>

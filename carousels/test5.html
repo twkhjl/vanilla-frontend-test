@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      list-style: none;
+      /* border: 2px solid gray; */
+    }
+
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    .flex-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .carousel-container {
+      top: 100px;
+      /* border: 10px solid green; */
+      /* border-radius: 15px; */
+      /* width: 20%; */
+      width: 100%;
+
+      position: relative;
+      overflow: hidden;
+    }
+
+    .carousel {
+      /* top: 100px; */
+      /* position:absolute; */
+      position: relative;
+      display: flex;
+      align-items: center;
+      left: -100%;
+      /* transition: all 0.5s; */
+    }
+
+
+    .carousel .slide {
+      width: 100%;
+      height: 80vh;
+    }
+
+    .carousel .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .slide-control-btn {
+      position: absolute;
+      top: 40%;
+      cursor: pointer;
+      /* border: 1px solid gray; */
+      background: rgb(222, 221, 221);
+      box-shadow: 1px 1px 10px black;
+      border-radius: 50%;
+      padding: 3vh;
+      font-size: 5vh;
+      width: 6vw;
+      max-width: 20px;
+      line-height: 5vh;
+      background-size: 4vh;
+      background-position: center;
+      background-repeat: no-repeat;
+
+    }
+
+    .btn-prev {
+      background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-left-512.png');
+      left: 10px;
+    }
+
+    .btn-next {
+      background-image: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-right-512.png');
+      right: 10px;
+    }
+
+    .carousel-container .indicators {
+      position: relative;
+      bottom: 40px;
+      display: flex;
+      /* border:1px solid white; */
+      justify-content: space-around;
+      margin-left: 5vw;
+      margin-right: 5vw;
+      width: auto;
+    }
+
+    .carousel-container .indicators>div {
+      /* border: 12px solid green; */
+      margin-left: 5px;
+      background: gray;
+      width: 10vw;
+      height: 10px;
+      opacity: 0.7;
+    }
+
+    .carousel-container .indicators>div.active {
+      background: white;
+      border: 1px solid black;
+      height: 12px;
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="flex-container">
+
+    <div class="carousel-container">
+      <div class="carousel">
+        <div id="slide_1" data-idx="0" class="slide"><img src="https://fakeimg.pl/350x200/FFC15E?text=img1"></div>
+        <div id="slide_2" data-idx="1" class="slide"><img src="https://fakeimg.pl/350x200/f7b05b?text=img2"></div>
+        <div id="slide_3" data-idx="2" class="slide"><img src="https://fakeimg.pl/350x200/F7934C?text=img3"></div>
+        <div id="slide_4" data-idx="3" class="slide"><img src="https://fakeimg.pl/350x200/cc5803?text=img4"></div>
+        <div id="slide_5" data-idx="4" class="slide"><img src="https://fakeimg.pl/350x200/753100?text=img5"></div>
+        <!-- <div id="slide_6" data-idx="5" class="slide"><img src="https://fakeimg.pl/350x200/753100?text=img6"></div> -->
+        <!-- <div id="slide_7" data-idx="6" class="slide"><img src="https://fakeimg.pl/350x200/753100?text=img7"></div> -->
+      </div>
+      <div class="indicators">
+        <div data-to="0" class="active"></div>
+        <div data-to="1"></div>
+        <div data-to="2"></div>
+        <div data-to="3"></div>
+        <div data-to="4"></div>
+        <!-- <div data-to="5"></div> -->
+        <!-- <div data-to="6"></div> -->
+      </div>
+      <div class="controls">
+        <div class="slide-control-btn btn-prev"></div>
+        <div class="slide-control-btn btn-next"></div>
+      </div>
+    </div>
+
+  </div>
+  <script>
+
+    let currentSlideIndex = 0;
+    let carousel = document.querySelector('.carousel');
+    carousel.style.transition = "all 0.5s";
+    carousel.style.left = '-100%';
+
+
+    let slides = document.querySelectorAll('.carousel .slide');
+
+    if (slides.length == 2) {
+      carousel.prepend(slides[1].cloneNode(true));
+      carousel.prepend(slides[0].cloneNode(true));
+      slides = document.querySelectorAll('.carousel .slide');
+    }
+    if (slides.length == 1) {
+      carousel.prepend(slides[0].cloneNode(true));
+      carousel.prepend(slides[0].cloneNode(true));
+      slides = document.querySelectorAll('.carousel .slide');
+    }
+    const slides_length = slides.length;
+    const btn_prev = document.querySelector('.controls .btn-prev');
+    const btn_next = document.querySelector('.controls .btn-next');
+    let switch_toggle_slider = true;
+
+    carousel.style.width = `${slides_length * 100}%`;
+    carousel.prepend(carousel.lastElementChild);
+    slides = document.querySelectorAll('.carousel .slide');
+
+    btn_next.addEventListener('click', slideToNext)
+    btn_prev.addEventListener('click', slideToPrev)
+
+    function changeSlide(direction) {
+
+      const directionArr = ['next', 'prev'];
+
+      setTimeout(() => {
+        carousel.style.transition = 'none';
+
+        if (direction == directionArr[0]) {
+          carousel.append(slides[0]);
+
+        } else if (direction == directionArr[1]) {
+          carousel.prepend(slides[slides.length - 1]);
+
+        } else {
+          return;
+        }
+
+        carousel.style.left = '-100%';
+        slides = document.querySelectorAll('.carousel .slide');
+
+      }, 300);
+
+      setTimeout(() => {
+        carousel.style.transition = 'all 0.5s';
+      }, 350);
+      setTimeout(() => {
+        switch_toggle_slider = true;
+      }, 400);
+
+    }
+    function slideToNext(el) {
+      el.preventDefault();
+
+      if (!switch_toggle_slider) return;
+
+      carousel.style.left = '-200%';
+      switch_toggle_slider = false;
+      setSlideIndex('next');
+
+      switchIndicator();
+
+      changeSlide('next');
+
+    }
+
+    function slideToPrev(el) {
+      el.preventDefault();
+
+      if (!switch_toggle_slider) return;
+
+      carousel.style.left = '0%';
+      switch_toggle_slider = false;
+
+      setSlideIndex('prev');
+      switchIndicator();
+      changeSlide('prev');
+
+
+    }
+
+    function setSlideIndex(direction) {
+      if (direction == 'next') {
+        if (currentSlideIndex == slides.length - 1) return currentSlideIndex = 0;
+        return currentSlideIndex++;
+      }
+      if (direction == 'prev') {
+        if (currentSlideIndex == 0) return currentSlideIndex = slides.length - 1;
+        return currentSlideIndex--;
+      }
+
+    }
+
+
+    // start indicators###################################################
+
+
+    const indicators = document.querySelectorAll('.indicators div');
+    indicators.forEach((el) => {
+      el.addEventListener('click', switchSlideByClickingIndicator);
+    })
+    function switchIndicator() {
+      let indicators = document.querySelectorAll('.indicators div');
+      indicators.forEach((indicator) => {
+        if (indicator.dataset.to == currentSlideIndex) {
+          indicator.classList.add('active');
+        } else {
+          indicator.classList.remove('active');
+        }
+      })
+    }
+    function switchSlideByClickingIndicator(e) {
+
+      let newIndex = e.target.dataset.to;
+
+      if (newIndex == currentSlideIndex) {
+        return;
+      }
+      if (newIndex - currentSlideIndex == -1) {
+        changeSlide('prev');
+        carousel.style.left = '0';
+      }
+      if (newIndex - currentSlideIndex == 1) {
+
+        changeSlide('next');
+        carousel.style.left = '-200%';
+
+      }
+      if (newIndex - currentSlideIndex > 1) {
+
+        let idx = newIndex - currentSlideIndex;
+        carousel.style.left = `${(-100 - (newIndex - currentSlideIndex) * 100)}%`;
+
+        setTimeout(() => {
+          carousel.style.transition = 'none';
+
+          for (let i = 0; i < idx; i++) {
+            carousel.append(slides[i]);
+          }
+          carousel.style.left = '-100%';
+          slides = document.querySelectorAll('.carousel .slide');
+
+        }, 300);
+
+        setTimeout(() => {
+          carousel.style.transition = 'all 0.5s';
+        }, 350);
+        setTimeout(() => {
+          switch_toggle_slider = true;
+        }, 400);
+      }
+      if (newIndex - currentSlideIndex < -1) {
+        carousel.style.transition = 'none';
+        let slideIdxOfDistSlide;
+
+        slides = document.querySelectorAll('.carousel .slide');
+        for (let i = 0; i < slides.length; i++) {
+          if (slides[i].dataset.idx == newIndex) {
+
+            slideIdxOfDistSlide = i;
+            break;
+          }
+        }
+
+        for (let i = slides.length - 1; i >= slideIdxOfDistSlide - 1; i--) {
+          carousel.prepend(slides[i]);
+        }
+        slides = document.querySelectorAll('.carousel .slide');
+
+        carousel.style.left = -(100 + 100 * (slides.length - slideIdxOfDistSlide + 1)) + '%';
+
+
+        setTimeout(() => {
+          carousel.style.transition = 'all 0.5s';
+          carousel.style.left = '-100%';
+        }, 10);
+
+      }
+
+
+      currentSlideIndex = newIndex;
+      switchIndicator();
+
+    }
+    // end indicators###################################################
+
+
+    // START draggable##################################################################
+
+
+    let posInitial = 0;
+    let threshold = 100;
+    let isPressed = false;
+    let singleSlideWidth = carousel.offsetWidth / slides.length;
+
+    let posXstart = 0;
+    let posXend = 0;
+
+    carousel.addEventListener('mousedown', dragStart);
+    carousel.addEventListener('mousemove', dragAction);
+    carousel.addEventListener('mouseup', dragEnd);
+
+    carousel.addEventListener('touchstart', dragStart);
+    carousel.addEventListener('touchmove', dragAction);
+    carousel.addEventListener('touchend', dragEnd);
+
+    // document.addEventListener('mousemove', dragAction);
+    // document.addEventListener('mouseup', dragEnd);
+
+
+
+    function dragStart(e) {
+      e.preventDefault();
+      isPressed = true;
+      carousel.style.transition = null;
+      posInitial = carousel.offsetLeft;
+
+      if (e.type == 'touchstart') {
+        posXstart = e.touches[0].clientX;
+      } else {
+        posXstart = e.clientX;
+
+      }
+
+
+
+    }
+    function dragAction(e) {
+      e.preventDefault();
+      if (!isPressed) return;
+
+
+
+      if (e.type == 'touchmove') {
+        posXend = posXstart - e.touches[0].clientX;
+        posXstart = e.touches[0].clientX;
+      } else {
+
+        posXend = posXstart - e.clientX;
+        posXstart = e.clientX;
+      }
+      carousel.style.left = (carousel.offsetLeft - posXend) + "px";
+
+
+      let rect = e.target.getBoundingClientRect();
+      let boundaryY = e.clientY - rect.top;
+      if (e.type == 'touchmove') boundaryY = e.touches[0].clientY - rect.top;
+
+      let container = document.querySelector('.carousel-container');
+
+      if (boundaryY < 10 || carousel.clientHeight - boundaryY < 10
+      ) {
+        dragEnd();
+      }
+
+
+      let boundaryX = e.clientX * 1 - 1 * container.offsetLeft;
+      // console.log(container.offsetWidth);
+      // console.log(container.offsetWidth * 1 - 1 * boundaryX);
+      // console.log(e.clientX*1-1*container.offsetLeft)
+      if (boundaryX < 20 || container.offsetWidth * 1 - 1 * boundaryX < 20) {
+        dragEnd()
+      }
+
+
+    }
+
+    function dragEnd() {
+
+      isPressed = false;
+      carousel.style.transition = 'all 0.5s';
+
+      let posFinal = carousel.offsetLeft;
+
+      if (posFinal - posInitial > singleSlideWidth * 2 / 3) {
+        btn_prev.click();
+      } else if (posFinal - posInitial < -(singleSlideWidth * 2 / 3)) {
+        btn_next.click();
+      }
+      else {
+        // return to original slide position
+        carousel.style.left = posInitial + 'px';
+      }
+      document.onmouseup = null;
+      document.onmousemove = null;
+      carousel.onmouseup = null;
+      carousel.onmousemove = null;
+
+
+
+    }
+
+// END draggable################################################################################
+
+
+
+
+
+
+
+
+  </script>
+</body>
+
+</html>

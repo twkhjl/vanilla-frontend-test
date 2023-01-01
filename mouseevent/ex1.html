@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+  <style>
+  
+    </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <div id="rec" class="bg-black w-[150px] h-[150px] mx-auto mt-[200px]"></div>
+  <div class="text-center mx-auto text-4xl">click me</div>
+</body>  
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<script>
+  let rec=document.querySelector("#rec");
+  rec.addEventListener('mousedown',function(){
+    // console.log('mouse down');
+    rec.classList.remove('bg-black');
+    rec.classList.add('bg-green-900');
+
+  });
+  rec.addEventListener('mouseup',function(){
+    // console.log('mouse up');
+    rec.classList.remove('bg-green-900');
+    rec.classList.add('bg-black');
+  })
+</script>
+
+
+
+</html>

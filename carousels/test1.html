@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      background-color: #111;
+    }
+
+    * {
+      border: 1px solid gray;
+
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      height: 100vh;
+      display: grid;
+      place-items: center;
+    }
+
+    .slider {
+      position: relative;
+      width: 30%;
+      height: 350px;
+      /* overflow: hidden; */
+    }
+
+    .slide {
+      position: absolute;
+      width: 100%;
+      height: 350px;
+      transition: all 0.5s;
+    }
+
+    .slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .btn {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+    }
+
+    .btn-prev {
+      top: 45%;
+      left: 5%;
+    }
+
+    .btn-next {
+      top: 45%;
+      right: 5%;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <div class="slider">
+      <div class="slide"><img src="https://fakeimg.pl/350x200/?text=Hello1"></div>
+      <div class="slide"><img src="https://fakeimg.pl/350x200/?text=Hello2"></div>
+      <div class="slide"><img src="https://fakeimg.pl/350x200/?text=Hello3"></div>
+      <button class="btn btn-next">></button>
+      <button class="btn btn-prev"><</button>
+    </div>
+  </div>
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    slides.forEach((el, index) => {
+        el.style.transform = `translateX(${(index) * 100}%)`;
+      });
+
+    const btnNext = document.querySelector('.btn.btn-next');
+    const btnPrev = document.querySelector('.btn.btn-prev');
+
+    let maxSlide = slides.length-1;
+    let curSlide = 0;
+
+    btnNext.addEventListener('click', function (e) {
+
+      if(curSlide===maxSlide){
+        curSlide=0;
+      }else{
+        curSlide++;
+
+      }
+      slides.forEach((el, index) => {
+        el.style.transform = `translateX(${(index - curSlide) * 100}%)`;
+      });
+
+
+
+
+
+    })
+    btnPrev.addEventListener('click', function (e) {
+      
+      if(curSlide===0){
+        curSlide=maxSlide;
+
+      } else{
+        curSlide--;
+
+      }
+
+      slides.forEach((el, index) => {
+        el.style.transform = `translateX(${(index-curSlide) * 100}%)`;
+      });
+      
+
+    })
+  </script>
+</body>
+
+</html>

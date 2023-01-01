@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+
+  <style>
+
+  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body>
+  <!-- https://www.w3schools.com/howto/howto_js_draggable.asp -->
+
+  
+  <div id="div_draggable_container" class="relative border-2 border-black w-[80%] mx-auto h-[300px]">
+    <div id="div_draggable" class="absolute w-[100px] h-[100px] bg-black cursor-move"></div>
+
+  </div>
+
+
+</body>
+<script src="https://code.jquery.com/jquery-3.6.1.min.js"></script>
+
+<script>
+
+  let div_draggable = document.querySelector('#div_draggable');
+  let div_draggable_container = document.querySelector('#div_draggable_container');
+
+  let div_mousedown_coordinate = document.querySelector('#div_mousedown_coordinate');
+  let div_mousemove_coordinate = document.querySelector('#div_mousemove_coordinate');
+  let div_mouseup_coordinate = document.querySelector('#div_mouseup_coordinate');
+
+
+  let pos1 = 0;
+  let pos2 = 0;
+
+  let pos3 = 0;
+  let pos4 = 0;
+
+  div_draggable.onmousedown = function (e) {
+    
+    // e = e || window.event;
+    // e.preventDefault();
+
+    // get the mouse cursor position at startup:
+    pos3 = e.clientX;
+    pos4 = e.clientY;
+
+
+    div_draggable_container.onmouseup = function () {
+      div_draggable_container.onmouseup = null;
+      div_draggable_container.onmousemove = null;
+    }
+    div_draggable_container.onmousemove = function (e) {
+      // e = e || window.event;
+      // e.preventDefault();
+
+      // calculate the new cursor position:
+      pos1 = pos3 - e.clientX;
+      pos2 = pos4 - e.clientY;
+
+      pos3 = e.clientX;
+      pos4 = e.clientY;
+
+      
+      // set the element's new position:
+
+      div_draggable.style.top = (div_draggable.offsetTop - pos2) + "px";
+      div_draggable.style.left = (div_draggable.offsetLeft - pos1) + "px";
+
+    }
+
+  }
+
+
+
+</script>
+
+
+
+</html>

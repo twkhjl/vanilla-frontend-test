@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>test</title>
+  <style>
+    *{
+      background-color: black;
+      color: gray;
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+    const str = 'name:John,age:18,phone:0987-654-321';
+    const regex=/name:([\w^,]+),age:([\d]+),phone:(\d{4}-\d{3}-\d{3})/;
+    const result =regex.exec(str);
+    console.log(result[1]); //John
+    console.log(result[2]); //18
+    console.log(result[3]); //0987-654-321
+  </script>
+
+</body>
+
+</html>
