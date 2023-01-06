@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+
+      background-color: black;
+      color: gray;
+
+    }
+  </style>
+</head>
+
+<body>
+
+</body>
+<script>
+/* 取得兩連續數字陣列的數字平方和.
+
+ex:sumSquareRootBetweenTwoNums(3, 7)
+就是取得[3,4,5,6,7]每個元素的平方和.
+*/
+
+  function sumSquareRootBetweenTwoNums(startNum, endNum) {
+    let arr = Array.from({ length: endNum - startNum+1 }, (_, i) => startNum + i);
+    return arr.reduce((accu,v)=>accu+v*v,0);
+  }
+  console.log(sumSquareRootBetweenTwoNums(3, 7));
+
+
+</script>
+
+</html>

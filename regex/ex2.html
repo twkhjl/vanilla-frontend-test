@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-tw">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin:0;
+      padding:0;
+
+      background-color: black;
+      color: gray;
+
+    }
+  </style>
+</head>
+
+<body>
+
+  <script>
+    // 用於模式比對的字串方法
+    
+    // search
+
+    function search_test(){
+      let pattern=/script/;
+      console.log("Javascript".search(pattern));
+      console.log("Python".search(pattern));
+
+    }
+    // search_test();
+
+
+    // ================================
+    // replace
+
+    // 不管大小寫如何,轉成正確的大小寫格式
+    function replace_test1(){
+      let pattern = /javascript/gi;
+      let text = 'JavAsCRIpt';
+
+      let result=text.replace(pattern,'JavaScript');
+      console.log(result);
+    }
+
+    // 將單/雙引號取代為驚嘆號
+    function replace_test2(){
+      let pattern=/(?<quote>['"])(?<content>[^'"]{1,})(\k<quote>)/;
+      let txt=`"some content here"`;
+      let output=txt.replace(pattern,`!$<content>!`);
+        console.log(output);
+    }
+
+    // replace_test1();
+    replace_test2();
+
+
+
+
+    
+    // ================================
+    // matchAll
+    function matchAll_test(){
+      let pattern=/test(\d){1}/g;
+      let txt="test1test2";
+
+      let result = [...txt.matchAll(pattern)];
+      console.log(result[0]);
+      // console.log(result[1]);
+
+    }
+    // matchAll_test();
+
+
+  </script>
+</body>
+
+</html>
